@@ -1,24 +1,13 @@
-from typing import Annotated, Optional, List
-from annotated_types import Ge, Le
-from pydantic import BaseModel, EmailStr, ConfigDict, StringConstraints
+from pydantic import BaseModel, ConfigDict
+from datetime import datetime
 
+class NotificationCreate(BaseModel):
+    event_type: str
+    payload: str
 
-NameStr        = Annotated[str, StringConstraints(min_length=1, max_length=50)] 
-PasswordStr = Annotated[str, StringConstraints(min_length=8, max_length=50)]
-
-class UserCreate(BaseModel):
-    username: NameStr
-    email: EmailStr
-    password: PasswordStr
-
-class UserRead(BaseModel):
+class NotificationRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: int
-    username: NameStr
-    email: EmailStr
-    password: PasswordStr
-
-class UserLogin(BaseModel):
-    username_or_email: str
-    password: PasswordStr
-
+    event_type: str
+    payload: str
+    created_at: datetime
